@@ -6,7 +6,7 @@ services:
       - MYSQL_ROOT_PASSWORD=secret
       - TZ=Europe/London
     volumes:
-      - /mnt/Containers/mariadb_data:/config
+      - /mnt/Containers/mariadb_nc:/config
     networks:
       - net01
     restart: always
