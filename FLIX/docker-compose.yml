@@ -1,0 +1,63 @@
+version: '2'
+services:
+  flix_tor1:
+    image: rooster791/docker-utorrent:latest
+    volumes:
+      - /mnt/Containers/uTorrent1_data:/data
+      - /mnt/Containers/uTorrent1_config:/utorrent
+    networks:
+      - net01
+    ports:
+      - 6881:6881
+    restart: always
+  flix_radarr:
+    image: linuxserver/radarr:latest
+    environment:
+      - TZ=Europe/London
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /mnt/gdrive/Media/Films:/movies
+      - /mnt/Containers/radarr_config:/config
+      - /mnt/Containers/uTorrent1_data:/data
+      - /mnt/gdrive/Media/4k/Movies:/4k
+    networks:
+      - net01
+    restart: always
+  flix_sonarr:
+    image: linuxserver/sonarr:latest
+    environment:
+      - TZ=Europe/London
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /mnt/gdrive/Media/TV:/tv
+      - /mnt/Containers/sonarr_config:/config
+      - /mnt/Containers/uTorrent1_data:/data
+      - /mnt/gdrive/Media/4k/TV:/4k
+    networks:
+      - net01
+    restart: always
+  flix_cardigann:
+    image: linuxserver/cardigann:latest
+    volumes:
+      - /mnt/Containers/cardigann_config:/config
+    networks:
+      - net01
+    restart: always
+  flix_orgsys:
+    image: tronyx/docker-organizr-v2:latest
+    volumes:
+      - /mnt/Containers/OrganizrSystem_config:/config
+    networks:
+      - net01
+    restart: always
+  flix_org:
+    image: tronyx/docker-organizr-v2:latest
+    volumes:
+      - /mnt/Containers/Organizr_config:/config
+    networks:
+      - net01
+    restart: always
+networks:
+  net01:
+    external:
+      name: net01
