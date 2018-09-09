@@ -1,5 +1,16 @@
 version: '2'
 services:
+  flix_plex:
+    image: linuxserver/plex:latest
+    environment:
+      - TZ=Europe/London
+    volumes:
+      - /mnt/Containers/PLEX_config:/config
+      - /mnt/gdrive/Media/Films:/data/movies
+      - /mnt/gdrive/Media/TV:/data/tvshows
+      - /mnt/Containers/PLEX_transcode:/transcode
+    network_mode: host
+    restart: always
   flix_tor1:
     image: rooster791/docker-utorrent:latest
     volumes:
