@@ -1,6 +1,7 @@
 version: '2'
 services:
   frnt_ovpnas:
+    privileged: true
     image: linuxserver/openvpn-as:latest
     volumes:
       - /mnt/Containers/OpenVPNAS_config:/config
