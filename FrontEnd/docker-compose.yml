@@ -16,6 +16,7 @@ services:
     environment:
       - CERT1=andyf**********.uk
       - CERT2=acces**********.uk
+      - LETSENCRYPT_EMAIL=************
     volumes:
       - /mnt/Containers/nginx_etc:/etc/letsencrypt
       - /mnt/Containers/nginx_sites:/etc/nginx/sites-enabled
