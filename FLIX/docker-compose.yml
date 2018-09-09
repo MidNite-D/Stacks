@@ -11,6 +11,7 @@ services:
       - /mnt/Containers/PLEX_transcode:/transcode
     network_mode: host
     restart: always
+
   flix_tor1:
     image: rooster791/docker-utorrent:latest
     volumes:
@@ -21,6 +22,7 @@ services:
     ports:
       - 6881:6881
     restart: always
+
   flix_radarr:
     image: linuxserver/radarr:latest
     environment:
@@ -33,7 +35,11 @@ services:
       - /mnt/gdrive/Media/4k/Movies:/4k
     networks:
       - net01
+    depends_on:
+      - flix_tor1
+      - flix_cardigann
     restart: always
+
   flix_sonarr:
     image: linuxserver/sonarr:latest
     environment:
@@ -46,7 +52,10 @@ services:
       - /mnt/gdrive/Media/4k/TV:/4k
     networks:
       - net01
+    depends_on:
+      - flix_tor1
     restart: always
+
   flix_cardigann:
     image: linuxserver/cardigann:latest
     volumes:
@@ -61,6 +70,7 @@ services:
     networks:
       - net01
     restart: always
+
   flix_org:
     image: tronyx/docker-organizr-v2:latest
     volumes:
@@ -68,6 +78,20 @@ services:
     networks:
       - net01
     restart: always
+
+  flix_tautulli:
+    image: linuxserver/tautulli
+    environment:
+      - TZ=Europe/London
+    volumes:
+      - /mnt/Containers/tautulli_config:/config
+      - /mnt/Containers/PLEX_config/Library/Application Support/Plex Media Server/Logs:/logs:ro
+    networks:
+      - net01
+    depends_on:
+      - flix_plex
+    restart: always
+
 networks:
   net01:
     external:
