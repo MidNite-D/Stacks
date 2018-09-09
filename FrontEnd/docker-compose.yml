@@ -1,0 +1,29 @@
+version: '2'
+services:
+  frnt_ovpnas:
+    image: linuxserver/openvpn-as:latest
+    volumes:
+      - /mnt/Containers/OpenVPNAS_config:/config
+    networks:
+      - net01
+    ports:
+      - 1194:1194
+      - 443:443
+      - 943:943
+    restart: always
+  frnt_nginx:
+    image: lerenn/lets-encrypt-reverse-proxy:latest
+    environment:
+      - CERT1=andyf**********.uk
+      - CERT2=acces**********.uk
+    volumes:
+      - /mnt/Containers/nginx_etc:/etc/letsencrypt
+      - /mnt/Containers/nginx_sites:/etc/nginx/sites-enabled
+    networks:
+      net01:
+        ipv4_address: 172.19.0.100
+    restart: always
+networks:
+  net01:
+    external:
+      name: net01
